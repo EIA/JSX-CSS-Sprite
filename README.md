@@ -1,10 +1,8 @@
 # JSX-CSS-Sprite
-自動生成up、over狀態的 photoshop script<br/>
+自動生成up、over狀態CSS Sprite的 photoshop script<br/>
 測試環境: win/mac  CS5/CS6<br/>
 
 =============
-> [About.me](http:about.me/eia)<br/>
-
 在Flash裡,我們會用 'up'、'over'、'hit'來製作按鈕元件，<br/>
 ![alt](images/flash.png)
 
