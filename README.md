@@ -1,6 +1,6 @@
 # JSX-CSS-Sprite
 
-YOUTUBE:<br/>
+YOUTUBE link:<br/>
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=8iekAv6VwWY
 " target="_blank"><img src="http://img.youtube.com/vi/8iekAv6VwWY/0.jpg" 
 alt="JSX-CSS-Sprite" width="360" height="240" border="10" /></a><br/>
