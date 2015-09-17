@@ -1,50 +1,29 @@
-﻿//alert(app.activeDocument);
-//alert(app.activeDocument.artLayers.length); // total layers
-//alert(app.activeDocument.artLayers[0]); // top layer
-
-
-var oldDoc, newDoc;
-
-
+﻿var oldDoc, newDoc;
 var targetLayer;
-
 var oAppRulerUnits = "";
 var oAppTypeUnits = "";
 
-oldDoc = app.activeDocument;
+function jsxCssSprite(){
+    oldDoc = app.activeDocument;
 
-oAppRulerUnits = app.preferences.rulerUnits;
-oAppTypeUnits = app.preferences.typeUnits;
+    oAppRulerUnits = app.preferences.rulerUnits;
+    oAppTypeUnits = app.preferences.typeUnits;
 
-app.preferences.rulerUnits = Units.PIXELS;
-app.preferences.typeUnits = TypeUnits.PIXELS;
+    app.preferences.rulerUnits = Units.PIXELS;
+    app.preferences.typeUnits = TypeUnits.PIXELS;
 
-//alert("app.preferences.rulerUnits: "+app.preferences.rulerUnits);
-//alert("app.preferences.typeUnits: "+app.preferences.typeUnits);
+    targetLayer = app.activeDocument.activeLayer;
+    _handleLayer(targetLayer);
 
-/*
-alert(app.activeDocument.activeLayer);
-alert(app.activeDocument.activeLayer.layers.length);
-alert(app.activeDocument.activeLayer.layers[0]);
-*/
-
-targetLayer = app.activeDocument.activeLayer;
-//alert(targetLayer);
-_handleLayer(targetLayer);
-
-app.preferences.rulerUnits = oAppRulerUnits;
-app.preferences.typeUnits = oAppTypeUnits;
+    app.preferences.rulerUnits = oAppRulerUnits;
+    app.preferences.typeUnits = oAppTypeUnits;
+}
 
 
-function _handleLayer($targetLayer){
-    /*
-    alert("targetLayer: "+targetLayer);
-    alert(targetLayer.layers);
-    alert(targetLayer.layers.length);
-    */
-    
-    var tmpTargetLayer = $targetLayer;
-    
+
+
+function _handleLayer($targetLayer){    
+    var tmpTargetLayer = $targetLayer;    
     
     var containUp = false;
     var containOver = false;
@@ -52,10 +31,7 @@ function _handleLayer($targetLayer){
     
     var targetWidth = 0, targetHeight;
     var moveDurX, moveDurY;
-    
-    //alert(tmpTargetLayer);
-    //alert(tmpTargetLayer.layers);
-    
+        
     if(tmpTargetLayer.layers){
     
     }else{
@@ -63,10 +39,7 @@ function _handleLayer($targetLayer){
         return;
     }
     
-    for(var i=0; i<tmpTargetLayer.layers.length; i++){
-        //alert(tmpTargetLayer.layers[i]+" name: "+tmpTargetLayer.layers[i].name);
-        //alert(tmpTargetLayer.layers[i]+" name: "+(tmpTargetLayer.layers[i].name).toLowerCase());
-        
+    for(var i=0; i<tmpTargetLayer.layers.length; i++){        
         var tmpLayerName = (tmpTargetLayer.layers[i].name).toLowerCase();
         if(tmpLayerName == "up"){
             containUp = true;
@@ -76,23 +49,17 @@ function _handleLayer($targetLayer){
             
         }else if(tmpLayerName == "hit"){
             containHit = true;
-            
-            //alert(tmpTargetLayer.layers[i].bounds);
-           
-           /*
-              alert(
+                       
+            /*
+            alert(
                      "bounds[0]: "+tmpTargetLayer.layers[i].bounds[0]+
                      "bounds[1]: "+tmpTargetLayer.layers[i].bounds[1]+
                      "bounds[2]: "+tmpTargetLayer.layers[i].bounds[2]+
                      "bounds[3]: "+tmpTargetLayer.layers[i].bounds[3]
                     );
-               */
+            */
             
             var selRegion = Array(
-            
-            /****** 
-                TODO: 轉換單位: 公分 > px or 更改成 以 px 單位 COMPLETE
-                ******/
                                                 new Array(tmpTargetLayer.layers[i].bounds[0], tmpTargetLayer.layers[i].bounds[1]),
                                                 new Array(tmpTargetLayer.layers[i].bounds[2], tmpTargetLayer.layers[i].bounds[1]),
                                                 new Array(tmpTargetLayer.layers[i].bounds[2], tmpTargetLayer.layers[i].bounds[3]),
@@ -100,58 +67,29 @@ function _handleLayer($targetLayer){
                                                 new Array(tmpTargetLayer.layers[i].bounds[0], tmpTargetLayer.layers[i].bounds[1])
             );
             
-             targetWidth  = tmpTargetLayer.layers[i].bounds[2] - tmpTargetLayer.layers[i].bounds[0];
-             targetHeight = tmpTargetLayer.layers[i].bounds[3] - tmpTargetLayer.layers[i].bounds[1];
+            targetWidth  = tmpTargetLayer.layers[i].bounds[2] - tmpTargetLayer.layers[i].bounds[0];
+            targetHeight = tmpTargetLayer.layers[i].bounds[3] - tmpTargetLayer.layers[i].bounds[1];
              
             moveDurX = tmpTargetLayer.layers[i].bounds[0] * -1;
             moveDurY = tmpTargetLayer.layers[i].bounds[1] * -1;
-            
-            // boundsNoEffects
-            // bounds
-            
-            //app.activeDocument.selection.select(selRegion);
-            
         }
         
     }
     // alert("containUp:\t"+containUp+"\ncontainOver:\t"+containOver+"\ncontainHit:\t"+containHit);
     
-    /****** 
-     TODO: 選回去原本的 layer index COMPLETE
-     ******/
     oldDoc.activeLayer = tmpTargetLayer;
     
-    if(containUp && containOver && containHit){
-        
-             
-            /****** 
-                TODO: 記錄原檔案名切換(記錄DOM) COMPLETE
-                ******/
-             
+    if(containUp && containOver && containHit){            
             newDoc = app.documents.add(targetWidth, targetHeight * 2, 72);
             
-            //alert(newDoc);
-            //alert(newDoc.width+" "+newDoc.height);
-            
             app.activeDocument = oldDoc;
-                        
             
-        
-            //tmpTargetLayer.duplicate(newDoc, ElementPlacement.PLACEATBEGINNING);
             var newLayer = (tmpTargetLayer.duplicate(newDoc, ElementPlacement.PLACEATBEGINNING));
             
-            //app.activeDocument = app.documents[ 1 ];
             app.activeDocument = newDoc;
-            //alert(newLayer);
-        
-            //alert(tmpTargetLayer.typename); // LayerSet
-            //tmpTargetLayer.remove();
-            //newDoc.activeLayer =document.layers[3];            
-            // tmpTargetLayer.duplicate(); //work
-            
-            
+
             moveCurrentLayer(moveDurX, moveDurY);
-            setOverClipPos();
+            _setOverClipPos();
             
             
             
@@ -162,21 +100,12 @@ function _handleLayer($targetLayer){
     }else if( !containHit){
         alert("圖層結構錯誤 : 需指定 Hit 圖層 / 群組");
     }
-    
-    //app.activeDocument.selection.selectAll();
 }
 
 
 
-function setOverClipPos(){
-    
-        //alert("setOverClipPos");
-        //alert(app.activeDocument.width);
-
+function _setOverClipPos(){
         tmpTargetLayer = app.activeDocument.activeLayer;
-        
-
-
     
         var upLayer, overLayer, hitLayer;
         
@@ -204,7 +133,6 @@ function setOverClipPos(){
         
         hitLayer.visible = false;
         
-        //alert(app.activeDocument.layers.length);
         app.activeDocument.layers[app.activeDocument.layers.length-1].remove();
         
         app.activeDocument.activeLayer = tmpTargetLayer;
@@ -215,3 +143,5 @@ function setOverClipPos(){
 function moveCurrentLayer($moveDurX, $moveDurY) {
     app.activeDocument.activeLayer.translate ($moveDurX, $moveDurY);
 }
+
+jsxCssSprite();
