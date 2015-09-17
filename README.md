@@ -4,11 +4,11 @@ YOUTUBE link:<br/>
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=8iekAv6VwWY
 " target="_blank"><img src="http://img.youtube.com/vi/8iekAv6VwWY/0.jpg" 
 alt="JSX-CSS-Sprite" width="360" height="240" border="10" /></a><br/>
-自動生成up、over狀態CSS Sprite的 photoshop script<br/>
+自動生成up、over狀態CSS Sprite的 Photoshop Script<br/>
 測試環境: win/mac  CS5/CS6<br/>
 
 =============
-在Flash裡,我們會用 'up'、'over'、'hit'來製作按鈕元件，<br/>
+在Flash裡，我們會用 'up'、'over'、'hit'來製作按鈕元件，<br/>
 ![alt](images/flash.png)
 
 小工具使用類似方式命名群組與圖層名<br/>
