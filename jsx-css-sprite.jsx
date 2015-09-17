@@ -125,13 +125,12 @@ function _setOverClipPos(){
         
         }
     
-        
-    
+        upLayer.visible = true;
+        overLayer.visible = true;
+        hitLayer.visible = false;    
     
         app.activeDocument.activeLayer = overLayer;
         moveCurrentLayer(0, app.activeDocument.height * .5);
-        
-        hitLayer.visible = false;
         
         app.activeDocument.layers[app.activeDocument.layers.length-1].remove();
         
